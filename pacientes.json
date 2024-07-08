@@ -43,5 +43,14 @@
         "edad": 21,
         "fecha_registro": "2024-07-08",
         "obra_social": "Particular"
+    },
+    {
+        "id": 6,
+        "nombre": "Rodrigo",
+        "apellido": "Buenardo",
+        "dni": 23569874,
+        "edad": 51,
+        "fecha_registro": "2024-07-08",
+        "obra_social": "Apres"
     }
 ]

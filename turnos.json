@@ -7,6 +7,13 @@
         "estado": "Pagado"
     },
     {
+        "id_paciente": 6,
+        "especialidad": "Traumatologia",
+        "monto": 2880.0,
+        "fecha": "2024-07-08",
+        "estado": "Pagado"
+    },
+    {
         "id_paciente": 2,
         "especialidad": "Medico Clinico",
         "monto": 1600.0,
