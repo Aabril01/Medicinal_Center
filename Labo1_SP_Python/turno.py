@@ -25,6 +25,15 @@ from datetime import date
 
 class Turno:
     def __init__(self, id_paciente, especialidad, monto, fecha=date.today(), estado='Activo'):
+        """
+        Inicializa un objeto Turno con los atributos dados.
+
+        :param id_paciente: ID del paciente asociado al turno.
+        :param especialidad: Especialidad médica del turno.
+        :param monto: Monto a pagar por el turno.
+        :param fecha: Fecha del turno (por defecto es la fecha actual).
+        :param estado: Estado del turno (por defecto es 'Activo').
+        """
         self.id_paciente = id_paciente
         self.especialidad = especialidad
         self.monto = monto
@@ -32,6 +41,11 @@ class Turno:
         self.estado = estado
 
     def __dict__(self):
+        """
+        Convierte el objeto Turno en un diccionario.
+
+        :return: Un diccionario con los atributos del turno.
+        """
         return {
             'id': self.id,
             'id_paciente': self.id_paciente,

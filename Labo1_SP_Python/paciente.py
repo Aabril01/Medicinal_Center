@@ -24,6 +24,17 @@ import datetime
 
 class Paciente:
     def __init__(self, id, nombre, apellido, dni, edad, fecha_registro, obra_social):
+        """
+        Inicializa un objeto Paciente con los atributos dados.
+
+        :param id: ID del paciente.
+        :param nombre: Nombre del paciente.
+        :param apellido: Apellido del paciente.
+        :param dni: DNI del paciente.
+        :param edad: Edad del paciente.
+        :param fecha_registro: Fecha en la que el paciente fue registrado.
+        :param obra_social: Obra social del paciente.
+        """
         self.id = id
         self.nombre = nombre
         self.apellido = apellido
@@ -33,4 +44,9 @@ class Paciente:
         self.obra_social = obra_social
 
 def __str__(self):
+        """
+        Devuelve una representación en cadena del objeto Paciente.
+
+        :return: Una cadena que describe al paciente, incluyendo su nombre, apellido, DNI y obra social.
+        """
         return f"Paciente {self.nombre} {self.apellido}, DNI: {self.dni}, Obra social: {self.obra_social}"
