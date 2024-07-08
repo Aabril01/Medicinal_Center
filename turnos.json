@@ -1,0 +1,30 @@
+[
+    {
+        "id_paciente": 1,
+        "especialidad": "Odontologia",
+        "monto": 2880.0,
+        "fecha": "2024-07-07",
+        "estado": "Pagado"
+    },
+    {
+        "id_paciente": 2,
+        "especialidad": "Medico Clinico",
+        "monto": 1600.0,
+        "fecha": "2024-07-07",
+        "estado": "Pagado"
+    },
+    {
+        "id_paciente": 3,
+        "especialidad": "Traumatologia",
+        "monto": 1600.0,
+        "fecha": "2024-07-07",
+        "estado": "Pagado"
+    },
+    {
+        "id_paciente": 3,
+        "especialidad": "Odontologia",
+        "monto": 1600.0,
+        "fecha": "2024-07-07",
+        "estado": "Pagado"
+    }
+]

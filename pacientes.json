@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "nombre": "Antonella",
+        "apellido": "Palacios",
+        "dni": 40587458,
+        "edad": 28,
+        "fecha_registro": "2024-07-07",
+        "obra_social": "Apres"
+    },
+    {
+        "id": 2,
+        "nombre": "Oscar",
+        "apellido": "Faena",
+        "dni": 8400258,
+        "edad": 74,
+        "fecha_registro": "2024-07-07",
+        "obra_social": "PAMI"
+    },
+    {
+        "id": 3,
+        "nombre": "Rosa",
+        "apellido": "Lamaravillosa",
+        "dni": 13569845,
+        "edad": 63,
+        "fecha_registro": "2024-07-07",
+        "obra_social": "PAMI"
+    },
+    {
+        "id": 4,
+        "nombre": "Tatiana",
+        "apellido": "Kotensen",
+        "dni": 43598741,
+        "edad": 23,
+        "fecha_registro": "2024-07-07",
+        "obra_social": "Swiss Medical"
+    }
+]
