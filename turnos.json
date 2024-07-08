@@ -26,5 +26,12 @@
         "monto": 1600.0,
         "fecha": "2024-07-07",
         "estado": "Pagado"
+    },
+    {
+        "id_paciente": 5,
+        "especialidad": "Psicologia",
+        "monto": 4200.0,
+        "fecha": "2024-07-08",
+        "estado": "Pagado"
     }
 ]

@@ -34,5 +34,14 @@
         "edad": 23,
         "fecha_registro": "2024-07-07",
         "obra_social": "Swiss Medical"
+    },
+    {
+        "id": 5,
+        "nombre": "Agustina",
+        "apellido": "Sabino",
+        "dni": 45698745,
+        "edad": 21,
+        "fecha_registro": "2024-07-08",
+        "obra_social": "Particular"
     }
 ]
