@@ -28,6 +28,13 @@ from datetime import date, datetime
 
 class Clinica:
     def __init__(self, razon_social, especialidades, obras_sociales):
+        """
+        Inicializa una instancia de la clase Clinica con los atributos dados.
+
+        :param razon_social: Nombre de la clínica.
+        :param especialidades: Lista de especialidades médicas que ofrece la clínica.
+        :param obras_sociales: Lista de obras sociales válidas que acepta la clínica.
+        """
         self.razon_social = razon_social
         self.lista_pacientes = []
         self.lista_turnos = []
@@ -37,6 +44,10 @@ class Clinica:
         self.next_patient_id = 1
 
     def cargar_datos(self):
+        """
+        Carga los datos de pacientes y turnos desde archivos JSON (pacientes.json y turnos.json).
+        Si los archivos no existen, no hace nada.
+        """
         try:
             with open('pacientes.json', 'r') as file:
                 pacientes_data = json.load(file)
@@ -73,39 +84,55 @@ class Clinica:
             pass
 
     def actualizar_archivos(self):
+        """
+        Actualiza los archivos JSON (pacientes.json y turnos.json) con los datos actuales
+        de pacientes y turnos.
+        """
         with open('pacientes.json', 'w') as file:
-            pacientes_serializados = [
-                {
-                    'id': paciente.id,
-                    'nombre': paciente.nombre,
-                    'apellido': paciente.apellido,
-                    'dni': paciente.dni,
-                    'edad': paciente.edad,
-                    'fecha_registro': paciente.fecha_registro.strftime('%Y-%m-%d'),
-                    'obra_social': paciente.obra_social
-                }
-                for paciente in self.lista_pacientes
-            ]
+            pacientes_serializados = list(map(lambda paciente: {
+                'id': paciente.id,
+                'nombre': paciente.nombre,
+                'apellido': paciente.apellido,
+                'dni': paciente.dni,
+                'edad': paciente.edad,
+                'fecha_registro': paciente.fecha_registro.strftime('%Y-%m-%d'),
+                'obra_social': paciente.obra_social
+            }, self.lista_pacientes))
             json.dump(pacientes_serializados, file, indent=4)
 
         with open('turnos.json', 'w') as file:
-            turnos_serializados = [
-                {
-                    'id_paciente': turno.id_paciente,
-                    'especialidad': turno.especialidad,
-                    'monto': turno.monto,
-                    'fecha': turno.fecha.strftime('%Y-%m-%d'),
-                    'estado': turno.estado
-                }
-                for turno in self.lista_turnos
-            ]
+            turnos_serializados = list(map(lambda turno: {
+                'id_paciente': turno.id_paciente,
+                'especialidad': turno.especialidad,
+                'monto': turno.monto,
+                'fecha': turno.fecha.strftime('%Y-%m-%d'),
+                'estado': turno.estado
+            }, self.lista_turnos))
             json.dump(turnos_serializados, file, indent=4)
 
     def cargar_configuracion(self, configs):
+        """
+        La función `cargar_configuracion` asigna valores de un diccionario `configs` a los atributos
+        `especialidades` y `obras_sociales_validas`.
+
+        :param configs: El método `cargar_configuracion` se utiliza para cargar configuraciones en el
+        objeto. Se espera que el parámetro `configs` sea un diccionario que contenga las configuraciones
+        para `especialidades` y `obras_sociales_validas`.
+        """
         self.especialidades = configs['especialidades']
         self.obras_sociales_validas = configs['obras_sociales']
 
     def cargar_paciente(self, nombre, apellido, dni, edad, obra_social):
+        """
+        La función `cargar_paciente` registra un nuevo paciente en la clínica después de validar 
+        los datos proporcionados. Si los datos son válidos, se agrega el paciente a `lista_pacientes`.
+
+        :param nombre: Nombre del paciente
+        :param apellido: Apellido del paciente
+        :param dni: DNI del paciente
+        :param edad: Edad del paciente
+        :param obra_social: Obra social del paciente
+        """
         if not validar_nombre_apellido(nombre) or not validar_nombre_apellido(apellido):
             print("Error: Nombre o apellido inválido.")
             return
@@ -125,6 +152,12 @@ class Clinica:
         print(f"Paciente {nombre} {apellido} registrado con éxito.")
 
     def cargar_turno(self, id_paciente, especialidad):
+        """
+        La función `cargar_turno` registra un nuevo turno para un paciente existente en la clínica.
+
+        :param id_paciente: ID del paciente para el que se registra el turno
+        :param especialidad: Especialidad para la cual se solicita el turno
+        """
         paciente = next((p for p in self.lista_pacientes if p.id == id_paciente), None)
         if paciente is None:
             print("Error: Paciente no encontrado.")
@@ -140,6 +173,14 @@ class Clinica:
         print(f"Turno para {especialidad} registrado con éxito.")
 
     def calcular_monto_a_pagar(self, id_paciente, especialidad):
+        """
+        La función `calcular_monto_a_pagar` calcula el monto a pagar por un turno basado en la especialidad,
+        la obra social del paciente y su edad.
+
+        :param id_paciente: ID del paciente
+        :param especialidad: Especialidad médica del turno
+        :return: Monto a pagar por el turno
+        """
         precio_base = self.especialidades.get(especialidad, 4000)
         paciente = next((p for p in self.lista_pacientes if p.id == id_paciente), None)
         if not paciente:
@@ -170,6 +211,12 @@ class Clinica:
         return monto_a_pagar
     
     def ordenar_turnos(self, criterio):
+        """
+        La función `ordenar_turnos` ordena la lista de turnos basada en el criterio especificado: 
+        obra social del paciente o monto a pagar.
+
+        :param criterio: Criterio de ordenamiento ('obra_social' o 'monto')
+        """
         if (criterio == 'obra_social'):
             self.lista_turnos.sort(key=lambda t: next((p.obra_social for p in self.lista_pacientes if p.id == t.id_paciente)))
         elif (criterio == 'monto'):
@@ -177,14 +224,22 @@ class Clinica:
         print("Turnos ordenados.")
 
     def mostrar_pacientes_en_espera(self):
-        pacientes_en_espera = [t for t in self.lista_turnos if t.estado == 'Activo']
+        """
+        La función `mostrar_pacientes_en_espera` muestra una lista de pacientes que están en espera, 
+        es decir, aquellos cuyos turnos tienen el estado 'Activo'.
+        """
+        pacientes_en_espera = list(filter(lambda t: t.estado == 'Activo', self.lista_turnos))
         for turno in pacientes_en_espera:
             paciente = next((p for p in self.lista_pacientes if p.id == turno.id_paciente), None)
             if paciente:
                 print(f"Paciente: {paciente.nombre} {paciente.apellido}, DNI: {paciente.dni}, Especialidad: {turno.especialidad}")
 
     def atender_pacientes(self):
-        turnos_activados = [t for t in self.lista_turnos if t.estado == 'Activo']
+        """
+        La función `atender_pacientes` cambia el estado de los primeros dos turnos en espera a 'Finalizado',
+        indicando que los pacientes han sido atendidos.
+        """
+        turnos_activados = list(filter(lambda t: t.estado == 'Activo', self.lista_turnos))
         if not turnos_activados:
             print("No hay pacientes en espera.")
             return
@@ -194,31 +249,37 @@ class Clinica:
         print("Pacientes atendidos.")
 
     def cobrar_atenciones(self):
-        turnos_finalizados = [t for t in self.lista_turnos if t.estado == 'Finalizado']
+        """
+        La función `cerrar_caja` verifica si hay pacientes pendientes por atender, y si no los hay, 
+        muestra la recaudación total y actualiza los archivos JSON.
+        """
+        turnos_finalizados = list(filter(lambda t: t.estado == 'Finalizado', self.lista_turnos))
         for turno in turnos_finalizados:
             turno.estado = 'Pagado'
             self.recaudacion += turno.monto
         print("Atenciones cobradas.")
 
     def cerrar_caja(self):
-        turnos_activados = [t for t in self.lista_turnos if t.estado == 'Activo' or t.estado == 'Finalizado']
+        """
+        La función `cerrar_caja` verifica si hay pacientes pendientes por atender, y si no los hay, 
+        muestra la recaudación total y actualiza los archivos JSON.
+        """
+        turnos_activados = list(filter(lambda t: t.estado == 'Activo' or t.estado == 'Finalizado', self.lista_turnos))
         if turnos_activados:
             print("Aún hay pacientes por atender.")
             return
         print(f"Total recaudado: ${self.recaudacion:.2f}")
         self.actualizar_archivos()
 
+
     def mostrar_informe(self):
+        """
+        La función `mostrar_informe` muestra la especialidad menos solicitada basada en los turnos registrados.
+        """
         especialidades_count = {especialidad: 0 for especialidad in self.especialidades}
         for turno in self.lista_turnos:
             especialidades_count[turno.especialidad] += 1
         especialidad_menos_solicitada = min(especialidades_count, key=especialidades_count.get)
         print(f"La especialidad menos solicitada es: {especialidad_menos_solicitada}")
         
-    """
-    def actualizar_archivos(self):
-        with open('pacientes.json', 'w') as file:
-            json.dump([paciente.__dict__ for paciente in self.lista_pacientes], file, indent=4)
-        with open('turnos.json', 'w') as file:
-            json.dump([turno.__dict__ for turno in self.lista_turnos], file, indent=4)
-    """
+    
