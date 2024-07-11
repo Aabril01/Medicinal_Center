@@ -31,7 +31,8 @@ def solicitar_entero(mensaje, min_value=None, max_value=None):
     """
     while True:
         try:
-            valor = int(input(mensaje))
+            valor = int(input(mensaje)) # solicito num al cliente
+            # esta dentro del rango ?
             if (min_value is not None and valor < min_value) or (max_value is not None and valor > max_value):
                 print(f"El valor debe estar entre {min_value} y {max_value}")
             else:
@@ -48,13 +49,13 @@ def solicitar_cadena(mensaje, max_length=None):
     :return: La cadena de caracteres ingresada por el usuario.
     """
     while True:
-        cadena = input(mensaje)
-        if not cadena.isalpha():
+        cadena = input(mensaje) # solicto cadena al cliente
+        if not cadena.isalpha(): # solo alfabeticos
             print("La cadena debe contener solo caracteres alfabéticos")
-        elif max_length is not None and len(cadena) > max_length:
+        elif max_length is not None and len(cadena) > max_length: # long max de la cadena
             print(f"La cadena no debe exceder {max_length} caracteres")
         else:
-            return cadena
+            return cadena # si esta todo ok devuelvo la cadena
 
 def solicitar_obra_social(edad):
     """
@@ -102,12 +103,12 @@ def validar_obra_social(obra_social, edad):
     :param edad: La edad del paciente.
     :return: True si la obra social es válida, False en caso contrario.
     """
-    obras_validas = ["Swiss Medical", "Apres", "PAMI", "Particular"]
-    if edad >= 60 and obra_social != "PAMI":
+    obras_validas = ["Swiss Medical", "Apres", "PAMI", "Particular"] # list de obras
+    if edad >= 60 and obra_social != "PAMI": # la condic de mayores de 60
         return False
-    if edad < 60 and obra_social == "PAMI":
+    if edad < 60 and obra_social == "PAMI": # la condic para menores de 60
         return False
-    return obra_social in obras_validas
+    return obra_social in obras_validas # verifico q la obra este en la lista de obras
 
 def validar_especialidad(especialidad):
     """
@@ -117,3 +118,4 @@ def validar_especialidad(especialidad):
     :return: True si la especialidad es válida, False en caso contrario.
     """
     return especialidad in ["Medico Clinico", "Odontologia", "Psicologia", "Traumatologia"]
+    #verifico que la esp este en la list de espe validas

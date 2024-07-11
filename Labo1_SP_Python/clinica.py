@@ -164,19 +164,16 @@ class Clinica:
             if p.id == id_paciente:
                 paciente = p
                 break
-
         # Verificar si el paciente fue encontrado
         if paciente is None:
             print("Error: Paciente no encontrado.")
             return
-
         # Calcular monto con la función calcular_monto_a_pagar
         monto_a_pagar = self.calcular_monto_a_pagar(id_paciente, especialidad)
         if monto_a_pagar is None:
             print("Error al calcular el monto a pagar.")
             return
-
-        # Si no hubo problemas, crear un nuevo Turno con sus datos
+        # Si no problem, crear un nuevo Turno con sus datos
         nuevo_turno = Turno(id_paciente, especialidad, monto_a_pagar, fecha=date.today())
         self.lista_turnos.append(nuevo_turno)  # Lo agrego a la lista de la clínica
         print(f"Turno para {especialidad} registrado con éxito.")
