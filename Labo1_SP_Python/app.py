@@ -87,7 +87,7 @@ def main_app():
                 dni = solicitar_entero("Ingrese DNI del paciente: ")
                 edad = solicitar_entero("Ingrese edad del paciente: ", 18, 90)
                 obra_social = solicitar_obra_social(edad)
-                clinica.cargar_paciente(nombre, apellido, dni, edad, obra_social)  # Corregido aquí
+                clinica.cargar_paciente(nombre, apellido, dni, edad, obra_social)  
             case 2:
                 id_paciente = solicitar_entero("Ingrese ID del paciente: ")
                 especialidad = input("Ingrese especialidad (Medico Clinico, Odontologia, Psicologia, Traumatologia): ")

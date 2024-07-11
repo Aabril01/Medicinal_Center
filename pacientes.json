@@ -52,5 +52,59 @@
         "edad": 51,
         "fecha_registro": "2024-07-08",
         "obra_social": "Apres"
+    },
+    {
+        "id": 7,
+        "nombre": "Rodolfo",
+        "apellido": "Barilli",
+        "dni": 12596847,
+        "edad": 60,
+        "fecha_registro": "2024-07-11",
+        "obra_social": "PAMI"
+    },
+    {
+        "id": 8,
+        "nombre": "Martina",
+        "apellido": "Sanchez",
+        "dni": 45897459,
+        "edad": 20,
+        "fecha_registro": "2024-07-11",
+        "obra_social": "Particular"
+    },
+    {
+        "id": 9,
+        "nombre": "Sandra",
+        "apellido": "Tomei",
+        "dni": 13698587,
+        "edad": 63,
+        "fecha_registro": "2024-07-11",
+        "obra_social": "PAMI"
+    },
+    {
+        "id": 10,
+        "nombre": "Flavio",
+        "apellido": "Chubut",
+        "dni": 7459598,
+        "edad": 70,
+        "fecha_registro": "2024-07-11",
+        "obra_social": "PAMI"
+    },
+    {
+        "id": 11,
+        "nombre": "Julieta",
+        "apellido": "Prandi",
+        "dni": 24569847,
+        "edad": 49,
+        "fecha_registro": "2024-07-11",
+        "obra_social": "Apres"
+    },
+    {
+        "id": 12,
+        "nombre": "Francisco",
+        "apellido": "Alvarez",
+        "dni": 41195233,
+        "edad": 26,
+        "fecha_registro": "2024-07-11",
+        "obra_social": "Swiss Medical"
     }
 ]

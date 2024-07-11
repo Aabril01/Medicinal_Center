@@ -14,6 +14,13 @@
         "estado": "Pagado"
     },
     {
+        "id_paciente": 11,
+        "especialidad": "Medico Clinico",
+        "monto": 2880.0,
+        "fecha": "2024-07-11",
+        "estado": "Pagado"
+    },
+    {
         "id_paciente": 2,
         "especialidad": "Medico Clinico",
         "monto": 1600.0,
@@ -35,10 +42,45 @@
         "estado": "Pagado"
     },
     {
+        "id_paciente": 7,
+        "especialidad": "Psicologia",
+        "monto": 1600.0,
+        "fecha": "2024-07-11",
+        "estado": "Pagado"
+    },
+    {
+        "id_paciente": 9,
+        "especialidad": "Traumatologia",
+        "monto": 1600.0,
+        "fecha": "2024-07-11",
+        "estado": "Pagado"
+    },
+    {
+        "id_paciente": 10,
+        "especialidad": "Traumatologia",
+        "monto": 1600.0,
+        "fecha": "2024-07-11",
+        "estado": "Pagado"
+    },
+    {
         "id_paciente": 5,
         "especialidad": "Psicologia",
         "monto": 4200.0,
         "fecha": "2024-07-08",
+        "estado": "Pagado"
+    },
+    {
+        "id_paciente": 8,
+        "especialidad": "Medico Clinico",
+        "monto": 4200.0,
+        "fecha": "2024-07-11",
+        "estado": "Pagado"
+    },
+    {
+        "id_paciente": 12,
+        "especialidad": "Odontologia",
+        "monto": 2000.0,
+        "fecha": "2024-07-11",
         "estado": "Pagado"
     }
 ]

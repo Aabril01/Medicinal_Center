@@ -25,42 +25,41 @@ import validaciones as val
 
 def clear_console():
     """
-    The function `clear_console` prompts the user to press Enter to continue and then clears the console
-    screen based on the operating system.
+    La función `clear_console` solicita al usuario presionar Enter para continuar y luego limpia la pantalla
+    de la consola según el sistema operativo.
     """
     _ = input('\nPresione Enter para continuar...')
-    if os in ['nt', 'dos', 'ce']:
+    if os.name in ['nt', 'dos', 'ce']:
+        os.system('cls')
+    else:
         os.system('clear')
-    else: os.system('cls')    
 
 def UTN_messenger(message: str, message_type: str = None, new_line: bool = False) -> None:
     """
-    This is a Python function that prints a message with a specific color and message type.
-    
-    :param message: The message that needs to be displayed in the console
-    :param message_type: The type of message being passed, which can be 'Error', 'Success', 'Info',
-    or None. If None, the message will be printed without any formatting
+    Esta es una función en Python que imprime un mensaje con un color específico y tipo de mensaje.
+
+    :param message: El mensaje que se debe mostrar en la consola.
+    :param message_type: El tipo de mensaje que se está pasando, que puede ser 'Error', 'Success', 'Info',
+    o None. Si es None, el mensaje se imprimirá sin ningún formato especial.
     """
-    _b_red: str = '\033[41m'
-    _b_green: str = '\033[42m'
-    _b_blue: str = '\033[44m'
-    _f_white: str = '\033[37m'
-    _no_color: str = '\033[0m'
-    message_type = message_type.strip().capitalize()
-    new_line_char = '\n'
-    final_message = f'{new_line_char if new_line else ""}'
+    _b_red: str = '\033[41m'   # Fondo rojo
+    _b_green: str = '\033[42m'  # Fondo verde
+    _b_blue: str = '\033[44m'   # Fondo azul
+    _f_white: str = '\033[37m'  # Texto blanco
+    _no_color: str = '\033[0m'  # Restablecer color
+    message_type = message_type.strip().capitalize() if message_type else None
+    new_line_char = '\n' if new_line else ''
+    final_message = f'{new_line_char}'
+    
+    # Asignación de color según el tipo de mensaje
     match message_type:
         case 'Error':
             final_message += f'{_b_red}{_f_white}> Error: {message}{_no_color}'
         case 'Success':
-            final_message += f'{_b_green}{_f_white}> Success: {message}{_no_color}'
+            final_message += f'{_b_green}{_f_white}> Éxito: {message}{_no_color}'
         case 'Info':
-            final_message += f'{_b_blue}{_f_white}> Information: {message}{_no_color}'
+            final_message += f'{_b_blue}{_f_white}> Información: {message}{_no_color}'
         case _:
             final_message += message
+    
     print(final_message)
-
-
-
-
-

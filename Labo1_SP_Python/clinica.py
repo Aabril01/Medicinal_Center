@@ -89,7 +89,7 @@ class Clinica:
         de pacientes y turnos.
         """
         with open('pacientes.json', 'w') as file:
-            pacientes_serializados = list(map(lambda paciente: {
+            pacientes_estructurados = list(map(lambda paciente: {
                 'id': paciente.id,
                 'nombre': paciente.nombre,
                 'apellido': paciente.apellido,
@@ -98,17 +98,17 @@ class Clinica:
                 'fecha_registro': paciente.fecha_registro.strftime('%Y-%m-%d'),
                 'obra_social': paciente.obra_social
             }, self.lista_pacientes))
-            json.dump(pacientes_serializados, file, indent=4)
+            json.dump(pacientes_estructurados, file, indent=4)
 
         with open('turnos.json', 'w') as file:
-            turnos_serializados = list(map(lambda turno: {
+            turnos_estructurados = list(map(lambda turno: { # cada objeto turno lo convierto en un dict con campos...
                 'id_paciente': turno.id_paciente,
                 'especialidad': turno.especialidad,
                 'monto': turno.monto,
                 'fecha': turno.fecha.strftime('%Y-%m-%d'),
                 'estado': turno.estado
             }, self.lista_turnos))
-            json.dump(turnos_serializados, file, indent=4)
+            json.dump(turnos_estructurados, file, indent=4)
 
     def cargar_configuracion(self, configs):
         """
@@ -158,18 +158,19 @@ class Clinica:
         :param id_paciente: ID del paciente para el que se registra el turno
         :param especialidad: Especialidad para la cual se solicita el turno
         """
+        #buscar el paciente en la lista por su id
         paciente = next((p for p in self.lista_pacientes if p.id == id_paciente), None)
         if paciente is None:
             print("Error: Paciente no encontrado.")
             return
-
+        # calcular monto con la funcion calcular_monto_a_pagar
         monto_a_pagar = self.calcular_monto_a_pagar(id_paciente, especialidad)
         if monto_a_pagar is None:
             print("Error al calcular el monto a pagar.")
             return
-
+        # si nada paso creo un nuevo Turno con sus datos
         nuevo_turno = Turno(id_paciente, especialidad, monto_a_pagar, fecha=date.today())
-        self.lista_turnos.append(nuevo_turno)
+        self.lista_turnos.append(nuevo_turno) #lo agrego a la lista de la clinica
         print(f"Turno para {especialidad} registrado con éxito.")
 
     def calcular_monto_a_pagar(self, id_paciente, especialidad):
@@ -181,8 +182,14 @@ class Clinica:
         :param especialidad: Especialidad médica del turno
         :return: Monto a pagar por el turno
         """
-        precio_base = self.especialidades.get(especialidad, 4000)
-        paciente = next((p for p in self.lista_pacientes if p.id == id_paciente), None)
+        precio_base = self.especialidades.get(especialidad, 4000)# si no encuentra la especialidad en el dict devuelve 4000 por defecto
+        
+        paciente = None
+        for p in self.lista_pacientes:
+            if p.id == id_paciente:
+                paciente = p # encontre un paciente con el id dado
+                break
+        
         if not paciente:
             return None
 
@@ -217,10 +224,13 @@ class Clinica:
 
         :param criterio: Criterio de ordenamiento ('obra_social' o 'monto')
         """
-        if (criterio == 'obra_social'):
+        if criterio == 'obra_social':
+            # Ordenar por obra social del paciente asociado a cada turno
             self.lista_turnos.sort(key=lambda t: next((p.obra_social for p in self.lista_pacientes if p.id == t.id_paciente)))
-        elif (criterio == 'monto'):
+        elif criterio == 'monto':
+            # Ordenar por monto del turno, de mayor a menor
             self.lista_turnos.sort(key=lambda t: t.monto, reverse=True)
+        
         print("Turnos ordenados.")
 
     def mostrar_pacientes_en_espera(self):
@@ -228,12 +238,23 @@ class Clinica:
         La función `mostrar_pacientes_en_espera` muestra una lista de pacientes que están en espera, 
         es decir, aquellos cuyos turnos tienen el estado 'Activo'.
         """
+        """
         pacientes_en_espera = list(filter(lambda t: t.estado == 'Activo', self.lista_turnos))
         for turno in pacientes_en_espera:
             paciente = next((p for p in self.lista_pacientes if p.id == turno.id_paciente), None)
             if paciente:
                 print(f"Paciente: {paciente.nombre} {paciente.apellido}, DNI: {paciente.dni}, Especialidad: {turno.especialidad}")
-
+        """
+        for turno in self.lista_turnos:
+            if turno.estado == 'Activo':
+                paciente = None # no encuentro el paciente, inicialixo en none 
+                for p in self.lista_pacientes:
+                    if p.id == turno.id_paciente:
+                        paciente = p # encuentro el paciente
+                        break  # Termino de buscar una vez encontrado el paciente
+                if paciente: # muestro la info del paciente encontrado
+                    print(f"Paciente: {paciente.nombre} {paciente.apellido}, DNI: {paciente.dni}, Especialidad: {turno.especialidad}")
+        
     def atender_pacientes(self):
         """
         La función `atender_pacientes` cambia el estado de los primeros dos turnos en espera a 'Finalizado',
@@ -243,8 +264,8 @@ class Clinica:
         if not turnos_activados:
             print("No hay pacientes en espera.")
             return
-        turnos_a_atender = turnos_activados[:2]
-        for turno in turnos_a_atender:
+        turnos_a_atender = turnos_activados[:2] # selecciono los primeros dos turnos de la lista para atender
+        for turno in turnos_a_atender: # me muevo sobre esos turnos q tengo q atender
             turno.estado = 'Finalizado'
         print("Pacientes atendidos.")
 
@@ -254,9 +275,9 @@ class Clinica:
         muestra la recaudación total y actualiza los archivos JSON.
         """
         turnos_finalizados = list(filter(lambda t: t.estado == 'Finalizado', self.lista_turnos))
-        for turno in turnos_finalizados:
+        for turno in turnos_finalizados: # si esta finalizado lo marco como pagado
             turno.estado = 'Pagado'
-            self.recaudacion += turno.monto
+            self.recaudacion += turno.monto # sumao a la caja
         print("Atenciones cobradas.")
 
     def cerrar_caja(self):
@@ -264,12 +285,15 @@ class Clinica:
         La función `cerrar_caja` verifica si hay pacientes pendientes por atender, y si no los hay, 
         muestra la recaudación total y actualiza los archivos JSON.
         """
+        # Filtro los turnos que voy a usar para esta funcion 
         turnos_activados = list(filter(lambda t: t.estado == 'Activo' or t.estado == 'Finalizado', self.lista_turnos))
+        # hay turnos activados ?
         if turnos_activados:
             print("Aún hay pacientes por atender.")
             return
+        # turnos finalizados, muestro la recaudacion
         print(f"Total recaudado: ${self.recaudacion:.2f}")
-        self.actualizar_archivos()
+        self.actualizar_archivos() # act los json 
 
 
     def mostrar_informe(self):
