@@ -106,5 +106,23 @@
         "edad": 26,
         "fecha_registro": "2024-07-11",
         "obra_social": "Swiss Medical"
+    },
+    {
+        "id": 13,
+        "nombre": "Lorena",
+        "apellido": "Morris",
+        "dni": 24598459,
+        "edad": 49,
+        "fecha_registro": "2024-07-11",
+        "obra_social": "Apres"
+    },
+    {
+        "id": 14,
+        "nombre": "Roberto",
+        "apellido": "Laplace",
+        "dni": 6598741,
+        "edad": 70,
+        "fecha_registro": "2024-07-11",
+        "obra_social": "PAMI"
     }
 ]

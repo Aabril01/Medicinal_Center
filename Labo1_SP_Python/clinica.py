@@ -158,19 +158,27 @@ class Clinica:
         :param id_paciente: ID del paciente para el que se registra el turno
         :param especialidad: Especialidad para la cual se solicita el turno
         """
-        #buscar el paciente en la lista por su id
-        paciente = next((p for p in self.lista_pacientes if p.id == id_paciente), None)
+        # Buscar el paciente en la lista por su id
+        paciente = None
+        for p in self.lista_pacientes:
+            if p.id == id_paciente:
+                paciente = p
+                break
+
+        # Verificar si el paciente fue encontrado
         if paciente is None:
             print("Error: Paciente no encontrado.")
             return
-        # calcular monto con la funcion calcular_monto_a_pagar
+
+        # Calcular monto con la función calcular_monto_a_pagar
         monto_a_pagar = self.calcular_monto_a_pagar(id_paciente, especialidad)
         if monto_a_pagar is None:
             print("Error al calcular el monto a pagar.")
             return
-        # si nada paso creo un nuevo Turno con sus datos
+
+        # Si no hubo problemas, crear un nuevo Turno con sus datos
         nuevo_turno = Turno(id_paciente, especialidad, monto_a_pagar, fecha=date.today())
-        self.lista_turnos.append(nuevo_turno) #lo agrego a la lista de la clinica
+        self.lista_turnos.append(nuevo_turno)  # Lo agrego a la lista de la clínica
         print(f"Turno para {especialidad} registrado con éxito.")
 
     def calcular_monto_a_pagar(self, id_paciente, especialidad):
@@ -218,15 +226,16 @@ class Clinica:
         return monto_a_pagar
     
     def ordenar_turnos(self, criterio):
-        """
-        La función `ordenar_turnos` ordena la lista de turnos basada en el criterio especificado: 
-        obra social del paciente o monto a pagar.
-
-        :param criterio: Criterio de ordenamiento ('obra_social' o 'monto')
-        """
         if criterio == 'obra_social':
-            # Ordenar por obra social del paciente asociado a cada turno
-            self.lista_turnos.sort(key=lambda t: next((p.obra_social for p in self.lista_pacientes if p.id == t.id_paciente)))
+            # Crear un diccionario para mapear ids de pacientes a sus obras sociales
+            paciente_obras_sociales = {p.id: p.obra_social for p in self.lista_pacientes}
+            
+            # Definir una función que obtenga la obra social de un turno
+            def obtener_obra_social(turno):
+                return paciente_obras_sociales.get(turno.id_paciente, None)
+            
+            # Ordenar la lista de turnos usando la función 
+            self.lista_turnos.sort(key=obtener_obra_social)
         elif criterio == 'monto':
             # Ordenar por monto del turno, de mayor a menor
             self.lista_turnos.sort(key=lambda t: t.monto, reverse=True)
